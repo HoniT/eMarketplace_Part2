@@ -23,8 +23,9 @@ public class ItemController {
 
     @GetMapping
     public ResponseEntity<List<Item>> getItems(@RequestParam int pageNumber,
-                                               @RequestParam int pageSize) {
-        return ResponseEntity.ok(itemService.getItems(pageNumber, pageSize));
+                                               @RequestParam int pageSize,
+                                               @RequestParam String sortParam) {
+        return ResponseEntity.ok(itemService.getItems(pageNumber, pageSize, sortParam));
     }
 
     @GetMapping("/{id}")

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,8 +34,18 @@ public class ItemService {
         this.uploadPath = Paths.get(uploadDir).toAbsolutePath().normalize();
     }
 
-    public List<Item> getItems(int pageNumber, int pageSize) {
-        PageRequest page = PageRequest.of(pageNumber, pageSize);
+    public List<Item> getItems(int pageNumber, int pageSize, String sortParam) {
+        Sort sort;
+        if (sortParam == null) sortParam = "dateDesc";
+
+        sort = switch (sortParam) {
+            case "dateAsc" -> Sort.by(Sort.Direction.ASC, "submissionTime");
+            case "priceAsc" -> Sort.by(Sort.Direction.ASC, "price");
+            case "priceDesc" -> Sort.by(Sort.Direction.DESC, "price");
+            default -> Sort.by(Sort.Direction.DESC, "submissionTime");
+        };
+
+        PageRequest page = PageRequest.of(pageNumber, pageSize, sort);
         return itemRepository.findAll(page).getContent();
     }
 

@@ -1,0 +1,10 @@
+CREATE TABLE users (
+    id UUID PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    birthday DATE NOT NULL
+);
+
+ALTER TABLE items ADD COLUMN user_id UUID;
+ALTER TABLE items ADD CONSTRAINT fk_item_user FOREIGN KEY (user_id) REFERENCES users(id);
