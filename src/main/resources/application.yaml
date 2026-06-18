@@ -7,3 +7,10 @@ spring:
     password: ${DB_PASSWORD}
   images:
     upload-dir: uploads
+app:
+  credentials:
+    username: ${APP_USERNAME:admin}
+    password: ${APP_PASSWORD:admin}
+  jjwt:
+    secret: ${SECRET_KEY}
+    duration: 3600000 # 1 hour
