@@ -8,12 +8,22 @@
 <body>
 <header>
     <h1 onclick="window.location.href='index.html'">eMarketplace</h1>
-    <a href="new-item.html" class="btn-new">New</a>
+    <div id="auth-actions">
+    </div>
 </header>
 
 <div class="container">
-    <div class="grid" id="itemsGrid">
+    <div class="sort-container">
+        <label for="sortParam">Sort by:</label>
+        <select id="sortParam" onchange="changeSort()">
+            <option value="dateDesc">Date Descending</option>
+            <option value="dateAsc">Date Ascending</option>
+            <option value="priceAsc">Price Ascending</option>
+            <option value="priceDesc">Price Descending</option>
+        </select>
     </div>
+
+    <div class="grid" id="itemsGrid"></div>
 
     <div class="pagination">
         <button id="prevBtn" onclick="changePage(-1)">&lt;</button>

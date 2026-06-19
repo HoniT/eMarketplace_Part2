@@ -5,10 +5,20 @@ document.getElementById('itemForm').addEventListener('submit', async (e) => {
 
     const formElement = e.target;
     const formData = new FormData(formElement);
+    const token = localStorage.getItem('jwt');
+
+    if (!token) {
+        alert('You must be logged in to post an item.');
+        window.location.href = 'login.html';
+        return;
+    }
 
     try {
         const response = await fetch(API_BASE, {
             method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
             body: formData
         });
 
