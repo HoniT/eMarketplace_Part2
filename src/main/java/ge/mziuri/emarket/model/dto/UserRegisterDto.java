@@ -19,7 +19,7 @@ public class UserRegisterDto {
     @Email(message = "Email must be valid")
     private String email;
 
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$",
             message = "Password must be minimum of 8 character, have lower and upper case letters, numbers and special characters")
     private String password;
 

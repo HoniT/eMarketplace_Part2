@@ -19,8 +19,9 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain httpSecurity(HttpSecurity http, TokenService tokenService) throws Exception {
         return http
-                .cors(Customizer.withDefaults())
+                .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
+
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
@@ -28,11 +29,16 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(requests -> requests
+                        // Add the /error endpoint here!
+                        .requestMatchers("/error").permitAll()
+
+                        .requestMatchers("/", "/*.html", "/*.js", "/*.css").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers(HttpMethod.GET, "/items", "/items/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users/login", "/users/register").permitAll()
-
-                        .anyRequest().authenticated())
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .anyRequest().authenticated()
+                )
                 .addFilterBefore(new JwtAuthFilter(tokenService), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

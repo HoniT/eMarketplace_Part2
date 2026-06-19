@@ -2,6 +2,7 @@ package ge.mziuri.emarket.controller;
 
 import ge.mziuri.emarket.exception.ResourceNotFoundException;
 import ge.mziuri.emarket.model.dto.ItemDto;
+import ge.mziuri.emarket.model.dto.ItemResponseDto;
 import ge.mziuri.emarket.model.entity.Item;
 import ge.mziuri.emarket.service.ItemService;
 import jakarta.validation.Valid;
@@ -22,14 +23,14 @@ public class ItemController {
     private ItemService itemService;
 
     @GetMapping
-    public ResponseEntity<List<Item>> getItems(@RequestParam int pageNumber,
+    public ResponseEntity<List<ItemResponseDto>> getItems(@RequestParam int pageNumber,
                                                @RequestParam int pageSize,
                                                @RequestParam String sortParam) {
         return ResponseEntity.ok(itemService.getItems(pageNumber, pageSize, sortParam));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Item> getItemById(@PathVariable("id") Long id) {
+    public ResponseEntity<ItemResponseDto> getItemById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(itemService.getItemById(id));
     }
 
